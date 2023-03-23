@@ -1,0 +1,4 @@
+- name: UI Playbook
+  hosts: workstations
+  roles:
+    - role: 'desktop-appearance'

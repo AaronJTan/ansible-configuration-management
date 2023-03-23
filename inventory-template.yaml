@@ -1,0 +1,19 @@
+all:
+  hosts:
+      ungroupedhost.mydomain.com:
+  children:
+    local:
+      hosts:
+        127.0.0.1:
+          ansible_connection: local
+    workstations:
+      hosts:
+        workstation1.mydomain.com:
+        workstation2.mydomain.com:
+        workstation3.mydomain.com:
+    
+    servers:
+      hosts:
+        server1.mydomain.com:
+        server2.mydomain.com:
+        server3.mydomain.com:

@@ -1,0 +1,11 @@
+---
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install Discord
+  become: true
+  apt:
+    deb: https://discord.com/api/download?platform=linux&format=deb
+  when: "'discord' not in ansible_facts.packages"

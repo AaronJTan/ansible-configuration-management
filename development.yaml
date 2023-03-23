@@ -1,0 +1,36 @@
+- name: Development Playbook
+  hosts: workstations
+  roles:
+    - role: discord
+      tags:
+        - discord
+        - application
+    - role: git
+      tags:
+        - git
+    - role: intellij
+      tags:
+        - java
+        - application
+    - role: java
+      tags:
+        - java
+    - role: python-packages
+      tags: 
+        - python-packages
+    - role: vim
+      tags:
+        - vim
+    - role: vscode
+      tags:
+        - vscode
+        - application
+    - role: vlc
+      tags:
+        - vlc
+        - application
+
+# - hosts: servers
+#   tasks:
+#   roles:
+#     - servers

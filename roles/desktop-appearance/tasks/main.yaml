@@ -1,0 +1,30 @@
+---
+
+- name: Set dock position - Bottom
+  ansible.builtin.command: gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+
+- name: Set dark mode
+  ansible.builtin.command: gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+- name: Create a wallpaper directory if it does not exist
+  ansible.builtin.file:
+    path: ~/.wallpaper
+    state: directory
+
+- name: Check that the macos-big-sur.jpg exists
+  stat:
+    path: ~/.wallpaper/macos-big-sur.jpg
+  register: wallpaper_present
+
+- name: Copy wallpaper
+  ansible.builtin.copy:
+    src: macos-big-sur.jpg
+    dest: ~/.wallpaper/macos-big-sur.jpg
+  when: not wallpaper_present.stat.exists
+
+- name: Set wallpaper
+  ansible.builtin.command: gsettings set org.gnome.desktop.background picture-uri-dark ~/.wallpaper/macos-big-sur.jpg
+  when: not wallpaper_present.stat.exists
+
+- name: Set time format 12h
+  ansible.builtin.command: gsettings set org.gnome.desktop.interface clock-format '12h'

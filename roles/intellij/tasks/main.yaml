@@ -1,0 +1,5 @@
+---
+
+- name: Install IntelliJ Idea Community Edition
+  become: true
+  ansible.builtin.command: snap install intellij-idea-community --classic

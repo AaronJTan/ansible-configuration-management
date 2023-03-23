@@ -1,0 +1,5 @@
+---
+
+- name: Install VLC
+  become: true
+  ansible.builtin.command: snap install vlc
