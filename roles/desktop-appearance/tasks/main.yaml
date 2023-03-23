@@ -28,3 +28,6 @@
 
 - name: Set time format 12h
   ansible.builtin.command: gsettings set org.gnome.desktop.interface clock-format '12h'
+
+- name: Disable dock Panel mode
+  ansible.builtin.command: gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
