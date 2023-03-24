@@ -2,8 +2,9 @@
 
 - name:  Install the Default JRE/JDK
   become: true
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: 
       - default-jre
       - default-jdk
     state: latest
+    update_cache: true
