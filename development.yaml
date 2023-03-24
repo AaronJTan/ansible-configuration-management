@@ -5,6 +5,9 @@
       tags:
         - discord
         - application
+    - role: docker
+      become: true
+      tags: docker
     - role: git
       tags:
         - git

@@ -1,0 +1,73 @@
+---
+
+- name: Remove old version of Docker - configuration and data files 
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/lib/docker
+    - /var/lib/containerd
+
+- name: Uninstall old versions of Docker
+  ansible.builtin.apt:
+    name:
+      - docker 
+      - docker-engine 
+      - docker.io 
+      - containerd 
+      - runc
+      - docker-ce 
+      - docker-ce-cli 
+      - containerd.io 
+      - docker-buildx-plugin 
+      - docker-compose-plugin 
+      - docker-ce-rootless-extras
+    state: absent
+    purge: true
+
+- name: Install packages to allow apt to use a repository over HTTPS
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+    update_cache: true
+
+- name: Create keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Add Docker's official GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /etc/apt/keyrings/docker.gpg
+
+- name: Set up the repository
+  block:
+    - name: Get repository source
+      ansible.builtin.shell:
+        cmd: 
+        > 
+          echo \
+          "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu
+          "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable"
+      register: echo_source
+    
+    - name: Add repository source into sources list
+      ansible.builtin.apt_repository:
+          repo: "{{ echo_source.stdout }}"
+          filename: docker.list
+
+- name: Install Docker Engine
+  ansible.builtin.apt:
+    name:
+      - docker-ce 
+      - docker-ce-cli 
+      - containerd.io
+      - docker-buildx-plugin 
+      - docker-compose-plugin
+    state: present
+    update_cache: true
