@@ -1,5 +1,5 @@
 - name: Development Playbook
-  hosts: workstations
+  hosts: local
   roles:
     - role: discord
       tags:
